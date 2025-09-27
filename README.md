@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 🌡️ Minimum Temperature Raster — Zonal Stats Perú
 
 ## 📌 Descripción
@@ -81,7 +80,7 @@ streamlit run app/streamlit_app.py
 
 ## 🚀 Despliegue
 La aplicación puede ejecutarse en Streamlit Community Cloud:
-👉 [Abrir app en línea](TU-LINK) (reemplazar `<TU-LINK>` con la URL de tu despliegue en Streamlit Cloud).
+👉 [Abrir app en línea](https://minimum-temperature-raster-ltxbcuzarrdc4mg8rxkappu.streamlit.app/).
 
 ## 📑 Fuente de datos
 - **Raster Tmin**: [especificar fuente oficial] (°C, 5 bandas = 5 periodos).
