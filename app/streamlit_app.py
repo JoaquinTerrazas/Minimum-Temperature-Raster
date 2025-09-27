@@ -88,29 +88,50 @@ else:
     fig2 = plot_map(gdf_map, map_var, band_sel, dep_sel)                  # figura de mapa
     st.pyplot(fig2)                                                       # render en app
 
-# =========== Sección 7: Políticas públicas ===========
-st.header("Políticas Públicas — Diagnóstico y Medidas")
+# =========== Seccion 7: Politicas publicas ===========
+st.header("Politicas Publicas — Diagnostico y Medidas")
+
 if n_obs == 0:
-    st.info("No hay datos para la selección actual.")                     # mensaje si vacío
+    st.info("No hay datos para la seleccion actual.")
 else:
-    n_riesgo = int((df_band["p10"] < thr).sum())                          # conteo distritos en riesgo
+    n_riesgo = int((df_band["p10"] < thr).sum()) if n_obs > 0 else 0
+
     st.markdown(f"""
-**Diagnóstico.** En **{dep_sel}** (o país completo) para **{band_sel}**:
-- **{n_riesgo}** distritos ({pct_riesgo:.1f}%) con **p10 < {thr:.1f} °C**.
-- Tmin media promedio **{mean_mean:.1f} °C**.
+**Diagnostico.** En **{dep_sel}** (o pais completo) para **{band_sel}**:
+- **{n_riesgo}** distritos (**{pct_riesgo:.1f}%**) con **p10 < {thr:.1f} C** (riesgo de heladas/friaje).
+- Temperatura minima media promedio: **{mean_mean:.1f} C**.
 
-**Focalización sugerida:** distritos con `p10 < {thr:.1f} °C` y/o `frost_share` elevado.
-""")
-    st.markdown("""
-**Medidas (plantilla):**
-1) **Vivienda térmica / ISUR** — Objetivo: reducir ARI/ILI. Población: hogares altoandinos. KPI: −X% ARI/ILI.
-2) **Kits antiheladas y refugios ganaderos** — Objetivo: bajar mortalidad de alpacas/ovinos. KPI: −X% mortalidad.
-3) **Calendarios agrícolas + alertas tempranas** — Objetivo: anticipar friajes y ajustar actividades. KPI: +X% asistencia escolar.
+**Criterio de focalizacion sugerido:** distritos con `p10 < {thr:.1f} C` y/o `frost_share` elevado (alto porcentaje de pixeles bajo el umbral).
 """)
 
-# =========== Pie de reproducibilidad ===========
-st.markdown("---")
-st.caption("""
-**Reproducibilidad**: Esta app lee `data/tmin_zstats_distrito.csv` y `data/shape_file/DISTRITOS.shp`.
-Para regenerar resultados: ejecutar el notebook (clip → zonal stats → figuras). Versiona `requirements.txt` en la raíz.
+    st.markdown(f"""
+### Medidas priorizadas
+
+**1) Vivienda termica / ISUR (altoandino)**
+**Objetivo:** reducir IRA/ILI y hospitalizaciones relacionadas al frio en hogares vulnerables.
+**Poblacion objetivo:** hogares ubicados en distritos focalizados (por ejemplo: Puno, Cusco, Ayacucho, Huancavelica, Pasco).
+**Supuesto de costo:** **S/ 8,000 por hogar** (mejoras de aislamiento, cielo raso, sellado y kit de calefaccion pasiva).
+**Meta operacional (ejemplo):** **25,000 hogares** -> **S/ 200 millones**.
+**KPI 2025-2026:** **-20%** de casos ARI/ILI reportados en establecimientos MINSA/ESSALUD de los distritos intervenidos.
+
+**2) Refugios y kits antiheladas para ganado**
+**Objetivo:** disminuir la mortalidad de alpacas/ovinos y perdidas agropecuarias por heladas.
+**Poblacion objetivo:** productores pecuarios en distritos focalizados (altoandinos).
+**Supuesto de costo:** **S/ 500 por kit/refugio** (cobertizo, cobertor termico, sales y bebedero).
+**Meta operacional (ejemplo):** **50,000 productores** -> **S/ 25 millones**.
+**KPI 2025-2026:** **-30%** de mortalidad de alpacas registrada por DRAs/INIA.
+
+**3) Calendarios agricolas + alertas tempranas de friaje (Andes y Amazonia)**
+**Objetivo:** anticipar eventos de frio extremo y ajustar calendarios/turnos escolares y agricolas.
+**Poblacion objetivo:** **1,500 instituciones** (1,000 escuelas y 500 establecimientos de salud) en Loreto, Ucayali y Madre de Dios, y gobiernos locales altoandinos.
+**Supuesto de costo:** **S/ 10,000 por institucion** (materiales, capacitacion y difusion) -> **S/ 15 millones**.
+**KPI 2025-2026:** **+15%** de asistencia escolar en meses criticos y **-15%** de atenciones por IRAs asociadas a friaje.
+
+Notas de implementacion:
+- Priorizar distritos con `p10 < {thr:.1f} C` y validacion con `frost_share`.
+- Articular financiamiento MEF (ISUR), sectores Salud/Educacion/Agrario y gobiernos regionales.
+- Monitoreo trimestral de KPIs y publicacion de tableros de seguimiento.
 """)
+
+
+
