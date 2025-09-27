@@ -29,7 +29,7 @@ def load_data():
     df["__NOMBRE__"] = df["__NOMBRE__"].apply(quitar_tildes)         # nombre sin tildes
 
     # Cargar shapefile para traer Departamento y geometría
-    gdf = gpd.read_file(SHAPE_PATH)
+    gdf = gpd.read_file(SHAPE_PATH, engine="pyogrio")
 
     # Campos de tu shapefile (ajustados a lo que hallamos): IDDIST=UBIGEO ; DEPARTAMEN=Departamento
     FIELD_UBIGEO = "IDDIST"
